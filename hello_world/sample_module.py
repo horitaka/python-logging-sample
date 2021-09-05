@@ -1,10 +1,4 @@
-import logging
-
 from custom_logger import CustomLogger
-# loggerの取得
-
-
-# logの出力
 
 class SampleModule:
 

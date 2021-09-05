@@ -14,9 +14,8 @@ class CustomLogger():
 
     def init_logger(self):
         # TODO: IPアドレス等を変数で渡す
-        # TODO: Loaderのdepratedeの修正
-        # TODO: moduleのパスの変更
-        logging.config.dictConfig(yaml.load(open(os.path.join(os.getcwd(), "log_config.yml")).read()))
+        log_config = yaml.load(open(os.path.join(os.getcwd(), "log_config.yml")).read(), Loader=yaml.FullLoader)
+        logging.config.dictConfig(log_config)
         self.logger = logging.getLogger(self.APP_NAME)
 
         # self.logger.setLevel(logging.INFO)

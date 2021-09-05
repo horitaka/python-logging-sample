@@ -50,7 +50,6 @@ def lambda_handler(event, context):
 
     # logger.get_logger('test').info('aaaaa')
 
-    # TODO
     # sample_moduleの呼び出し
     SampleModule().some_method()
 
