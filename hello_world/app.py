@@ -56,8 +56,6 @@ def lambda_handler(event, context):
     # sample_moduleの呼び出し
     SampleModule().some_method()
 
-    # TODO: シーケンス図直し
-
 
     return {
         "statusCode": 200,

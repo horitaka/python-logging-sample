@@ -1,7 +1,6 @@
 import logging
 from random import choice
 
-# TODO シングルトンにする
 class ContextFilter(logging.Filter):
 
     USERS = ['jim', 'fred', 'sheila']

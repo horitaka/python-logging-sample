@@ -11,7 +11,13 @@ participant logging as logging
 handler -> app: call api
 activate app
 
-  app -> custom_logger: _init_(context)\ncontextの保存,formatter, handlerの設定
+  app -> app: contextからipアドレスなど取得
+
+  app -> custom_logger: get_instance()
+  activate custom_logger
+  return custom_logger
+
+  app -> custom_logger: init_logger(context)\ncontextの保存,formatter, handlerの設定
   activate custom_logger
   return
 
@@ -22,6 +28,7 @@ activate app
         custom_logger -> logging: get_logger(name)
         activate logging
         return logger
+        custom_logger -> custom_logger: filterの設定
       return logger
       module1 -> module1: self.logger = logger
     return
@@ -32,9 +39,5 @@ activate app
   return
 
 
-  app -> module2: 何らかの処理
-  activate module2
-    module2 -> module2: loggerの取得、logの出力
-  return
 
 @enduml
