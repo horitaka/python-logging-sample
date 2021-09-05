@@ -3,9 +3,8 @@ import logging
 import logging.config
 import yaml
 
-from context_filter import ContextFilter
 
-class CustomLogger():
+class CustomLogger(logging.Filter):
     APP_NAME = 'SampleApp'
     __instance = None
 
@@ -20,15 +19,18 @@ class CustomLogger():
             raise Exception("CustomLoggerクラス")
         else:
             CustomLogger.__instance = self
+        
+    def filter(self, record):
+        record.ip = self.__ip
+        return True
 
-    # def __init__(self):
-    #     pass
 
-    def init_logger(self):
+    def init_logger(self, ip):
         # TODO: IPアドレス等を変数で渡す
         log_config = yaml.load(open(os.path.join(os.getcwd(), "log_config.yml")).read(), Loader=yaml.FullLoader)
         logging.config.dictConfig(log_config)
         self.logger = logging.getLogger(self.APP_NAME)
+        self.__ip = ip
 
         # self.logger.setLevel(logging.INFO)
 
@@ -44,6 +46,5 @@ class CustomLogger():
 
     def get_logger(self, name):
         logger = logging.getLogger(f'{self.APP_NAME}.{name}')
-        filter = ContextFilter('123456')
-        logger.addFilter(filter)
+        logger.addFilter(self)
         return logger

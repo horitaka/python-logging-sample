@@ -11,6 +11,5 @@ class ContextFilter(logging.Filter):
         self._ip = context
 
     def filter(self, record):
-        # record.ip = choice(ContextFilter.IPS)
         record.ip = self._ip
         return True

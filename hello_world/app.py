@@ -46,7 +46,7 @@ def lambda_handler(event, context):
 
     # loggerのinit
     custom_logger = CustomLogger.get_instance()
-    custom_logger.init_logger()
+    custom_logger.init_logger('ipaddress00000')
 
     # logger.get_logger('test').info('aaaaa')
 
