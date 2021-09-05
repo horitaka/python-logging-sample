@@ -5,12 +5,24 @@ import yaml
 
 from context_filter import ContextFilter
 
-# TODO シングルトンにする
 class CustomLogger():
     APP_NAME = 'SampleApp'
+    __instance = None
+
+    @staticmethod 
+    def get_instance():
+        if CustomLogger.__instance == None:
+            CustomLogger()
+        return CustomLogger.__instance
 
     def __init__(self):
-        pass
+        if CustomLogger.__instance != None:
+            raise Exception("CustomLoggerクラス")
+        else:
+            CustomLogger.__instance = self
+
+    # def __init__(self):
+    #     pass
 
     def init_logger(self):
         # TODO: IPアドレス等を変数で渡す

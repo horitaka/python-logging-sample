@@ -6,7 +6,7 @@ sys.path.append(os.path.join(os.getcwd(), 'lib'))
 
 # import requests
 
-import custom_logger
+from custom_logger import CustomLogger
 from sample_module import SampleModule
 
 def lambda_handler(event, context):
@@ -45,8 +45,8 @@ def lambda_handler(event, context):
     # print(context)
 
     # loggerのinit
-    logger = custom_logger.CustomLogger()
-    logger.init_logger()
+    custom_logger = CustomLogger.get_instance()
+    custom_logger.init_logger()
 
     # logger.get_logger('test').info('aaaaa')
 
