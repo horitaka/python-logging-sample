@@ -1,5 +1,8 @@
 import json
 import logging
+import sys
+import os 
+sys.path.append(os.path.join(os.getcwd(), 'lib'))
 
 # import requests
 
