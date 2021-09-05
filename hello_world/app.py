@@ -2,7 +2,7 @@ import json
 import logging
 import sys
 import os 
-sys.path.append(os.path.join(os.getcwd(), 'lib'))
+# sys.path.append(os.path.join(os.getcwd(), 'lib'))
 
 # import requests
 
@@ -44,11 +44,14 @@ def lambda_handler(event, context):
     # print('---------context--------')
     # print(context)
 
+    ip_address = event['requestContext']['identity']['sourceIp']
+    context = {
+        'ip_address': ip_address
+    }
+
     # loggerのinit
     custom_logger = CustomLogger.get_instance()
-    custom_logger.init_logger('ipaddress00000')
-
-    # logger.get_logger('test').info('aaaaa')
+    custom_logger.init_logger(context)
 
     # sample_moduleの呼び出し
     SampleModule().some_method()

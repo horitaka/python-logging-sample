@@ -2,7 +2,7 @@ import os
 import logging
 import logging.config
 import yaml
-
+import json
 
 class CustomLogger(logging.Filter):
     APP_NAME = 'SampleApp'
@@ -21,27 +21,36 @@ class CustomLogger(logging.Filter):
             CustomLogger.__instance = self
         
     def filter(self, record):
-        record.ip = self.__ip
+        record.ip_address = self.__ip_address
         return True
 
 
-    def init_logger(self, ip):
-        # TODO: IPアドレス等を変数で渡す
-        log_config = yaml.load(open(os.path.join(os.getcwd(), "log_config.yml")).read(), Loader=yaml.FullLoader)
-        logging.config.dictConfig(log_config)
+    def init_logger(self, context):
+        self.__ip_address = context['ip_address']
+
+        # log_config = yaml.load(open(os.path.join(os.getcwd(), "log_config.yml")).read(), Loader=yaml.FullLoader)
+        # logging.config.dictConfig(log_config)
+        # self.logger = logging.getLogger(self.APP_NAME)
+
         self.logger = logging.getLogger(self.APP_NAME)
-        self.__ip = ip
+        self.logger.setLevel(logging.INFO)
+        self.logger.propagate = False
 
-        # self.logger.setLevel(logging.INFO)
+        handler = logging.StreamHandler()
+        handler.setLevel(logging.INFO)
+        self.logger.addHandler(handler)
 
-        # filter = ContextFilter('12345')
-        # self.logger.addFilter(filter)
-
-        # handler = logging.StreamHandler()
-        # handler.setLevel(logging.INFO)
-        # formatter = logging.Formatter('%(asctime)-15s %(name)-5s %(levelname)-8s  %(message)s  - %(ip)s')
-        # handler.setFormatter(formatter)
-        # self.logger.addHandler(handler)
+        # TODO: 時刻のフォーマットのカンマを直す
+        # TODO: useridなどを追加する
+        format = {
+            'timestamp': '%(asctime)s',
+            'file': '%(name)s',
+            'level': '%(levelname)s',
+            'message': '%(message)s',
+            'ip_adderess': '%(ip_address)s'
+        }
+        formatter = logging.Formatter(json.dumps(format, ensure_ascii=False))
+        handler.setFormatter(formatter)
 
 
     def get_logger(self, name):
